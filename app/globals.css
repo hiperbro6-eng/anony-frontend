@@ -1,0 +1,242 @@
+@import url('https://unpkg.com/aos@next/dist/aos.css');
+
+:root {
+  --primary-bg: #0d0d0d;
+  --secondary-bg: #141414;
+  --card-bg: #1a1a1a;
+  --accent-color: #ffffff;
+  --text-primary: #ffffff;
+  --text-secondary: #bbbbbb;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --border-hover: rgba(255, 255, 255, 0.3);
+  --shadow-dark: rgba(0, 0, 0, 0.5);
+  --transition: all 0.3s ease;
+}
+
+* {
+  box-sizing: border-box;
+  cursor: none !important;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: var(--primary-bg);
+  color: var(--text-primary);
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+}
+
+/* --- MOVING BACKGROUND TEXT --- */
+.moving-bg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.moving-bg {
+  position: absolute;
+  width: 200%;
+  font-size: 140px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.03);
+  white-space: nowrap;
+  animation: moveBg 25s linear infinite;
+  text-transform: uppercase;
+}
+
+@keyframes moveBg { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes moveBgReverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+
+/* --- CUSTOM CURSOR --- */
+.custom-cursor {
+  position: fixed;
+  width: 20px;
+  height: 20px;
+  background: #ff0000;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
+  mix-blend-mode: difference;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease;
+}
+
+/* --- LAYOUT UTILS --- */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section {
+  padding: 100px 0;
+  position: relative;
+  z-index: 2; /* Ensures it sits above background text */
+}
+
+.section-title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 60px;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* --- THE COOL CARDS (Features & Shortcuts) --- */
+.feature-card, .shortcut-card, .pricing-card {
+  background: var(--card-bg);
+  border-radius: 15px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 5px 20px var(--shadow-dark);
+  transition: var(--transition);
+  border: 1px solid var(--border-color);
+  position: relative;
+  overflow: hidden;
+}
+
+/* The Glowing Top Line Effect */
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+}
+
+.feature-card:hover, .shortcut-card:hover, .pricing-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1);
+  border-color: var(--border-hover);
+}
+
+.feature-card:hover::before {
+  transform: translateX(0);
+}
+
+/* --- THE 3D KEYCAPS (Exact Copy) --- */
+.keys {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+  transition: transform 0.3s ease;
+}
+
+.shortcut-card:hover .keys {
+  transform: scale(1.1);
+}
+
+.keycap {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #282828, #202020);
+  /* The complex shadow that makes it look 3D */
+  box-shadow:
+    inset -8px 0 8px rgba(0, 0, 0, 0.15),
+    inset 0 -8px 8px rgba(0, 0, 0, 0.25),
+    0 0 0 2px rgba(0, 0, 0, 0.75),
+    8px 15px 20px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  user-select: none;
+}
+
+.keycap .letter {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+  z-index: 2;
+}
+
+/* The shiny edge on the key */
+.keycap::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  bottom: 14px;
+  right: 12px;
+  background: linear-gradient(90deg, #232323, #4a4a4a);
+  border-radius: 10px;
+  box-shadow:
+    -10px -10px 10px rgba(255, 255, 255, 0.15),
+    10px 5px 10px rgba(0, 0, 0, 0.15);
+  border-left: 1px solid #0004;
+  border-bottom: 1px solid #0004;
+  border-top: 1px solid #0009;
+}
+
+/* --- PRICING SPECIFICS --- */
+.pricing-card.popular {
+  border: 2px solid var(--accent-color);
+  transform: scale(1.05);
+}
+.pricing-card .price {
+  font-size: 3rem;
+  font-weight: 800;
+  margin: 20px 0;
+}
+.pricing-card .features-list {
+  list-style: none;
+  text-align: left;
+  padding-left: 0;
+}
+.pricing-card .features-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: #ccc;
+}
+
+/* --- BUTTONS --- */
+.btn {
+  background: var(--accent-color);
+  color: #000;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+  display: inline-block;
+}
+
+.btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.8);
+}
