@@ -121,7 +121,7 @@ export default function Cart() {
           ) : (
              total > 0 && (
                <PayPalScriptProvider options={{ 
-                 "client-id": "AUUEg0FSQDqZsCwbLu0QzKZdxNDgNWtnVZqanpjYJH9uFzyZouVllWU8jt_g0pVJL87zMMVE8FED6waZ" 
+                 "client-id": "AbhKHDWUohLGmUpFj87tSZ7UUPp-MzFH9RDIn24x4MEUqLdRtpmTia2K95gUpbUQuv4HHleN3aaNKVfB" 
                }}>
                  <PayPalButtons 
                    style={{ layout: "vertical", shape: "rect" }}
