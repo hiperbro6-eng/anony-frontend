@@ -10,6 +10,10 @@ const poppins = Poppins({
 export const metadata = {
   title: "ANONY Extensions",
   description: "Tool that go beyond Learning",
+
+  verification: {
+    google: "oydgpHsA5uLuO_A7NRe1Qi4JF4k1HWQQ1qqCCPbC08g",
+  },
 };
 
 export default function RootLayout({ children }) {
