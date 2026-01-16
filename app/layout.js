@@ -8,8 +8,8 @@ const poppins = Poppins({
 });
 
 export const metadata = {
-  title: "ANONY | 3D Store",
-  description: "Next Gen Commerce",
+  title: "ANONY Extensions",
+  description: "Tool that go beyond Learning",
 };
 
 export default function RootLayout({ children }) {
