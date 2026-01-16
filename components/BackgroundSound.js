@@ -21,7 +21,7 @@ export default function BackgroundSound() {
       // 2. Master Volume (Very Low Ambient)
       const masterGain = ctx.createGain();
       masterGain.gain.setValueAtTime(0.0, ctx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + 4); // Soft fade in
+      masterGain.gain.linearRampToValueAtTime(0.5, ctx.currentTime + 4); // Soft fade in
       masterGain.connect(ctx.destination);
       gainNodeRef.current = masterGain;
 

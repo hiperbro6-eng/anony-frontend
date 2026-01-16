@@ -83,8 +83,19 @@ export default function Home() {
             >
               Buy Now
             </button>
-            <button className="btn btn-outline" style={{ pointerEvents: 'auto' }} onClick={playClick}>
+            <button 
+            className="btn btn-outline" 
+            style={{ pointerEvents: 'auto' }} 
+            onClick={() => window.open('https://www.youtube.com/@anony4048', '_blank')}
+            >
                 Watch Demo
+            </button>
+            <button 
+            className="btn btn-outline" 
+            style={{ pointerEvents: 'auto' }} 
+            onClick={() => window.open('https://wa.me/94710865862', '_blank')}
+            >
+                Contact Me
             </button>
           </div>
         </div>
