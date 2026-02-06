@@ -1,453 +1,580 @@
 @import url('https://unpkg.com/aos@next/dist/aos.css');
 
-:root {
-  --primary-bg: #0d0d0d;
-  --secondary-bg: #141414;
-  --card-bg: #1a1a1a;
-  --accent-color: #ffffff;
-  --text-primary: #ffffff;
-  --text-secondary: #bbbbbb;
-  --border-color: rgba(255, 255, 255, 0.1);
-  --border-hover: rgba(255, 255, 255, 0.3);
-  --shadow-dark: rgba(0, 0, 0, 0.5);
-  --transition: all 0.3s ease;
+:root{
+  --primary-bg:#0b0b0d;
+  --secondary-bg:#121217;
+  --card-bg:rgba(255,255,255,0.03);
+  --accent-color:#ffffff;
+  --accent-red:#ff2a2a;
+
+  --text-primary:#ffffff;
+  --text-secondary:rgba(255,255,255,0.72);
+
+  --border-color:rgba(255,255,255,0.10);
+  --border-hover:rgba(255,255,255,0.22);
+
+  --shadow-dark:rgba(0,0,0,0.55);
+  --transition:all .28s ease;
+
+  --radius:16px;
 }
 
-* {
-  box-sizing: border-box;
-  cursor: none !important;
+*{
+  box-sizing:border-box;
+  cursor:none !important;
 }
 
-body, html {
-  margin: 0;
-  padding: 0;
-  background-color: var(--primary-bg);
-  color: var(--text-primary);
-  font-family: 'Poppins', sans-serif;
-  overflow-x: hidden;
+html, body{
+  margin:0;
+  padding:0;
+  background:var(--primary-bg);
+  color:var(--text-primary);
+  font-family:'Poppins',sans-serif;
+  overflow-x:hidden;
 }
 
-/* --- MOVING BACKGROUND TEXT --- */
-.moving-bg-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
+/* ===== LUX BACKGROUND LIGHT ===== */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(circle at 25% 15%, rgba(255,255,255,0.07), transparent 42%),
+    radial-gradient(circle at 70% 85%, rgba(255,255,255,0.05), transparent 45%),
+    radial-gradient(circle at 80% 10%, rgba(255,42,42,0.05), transparent 40%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ===== SUBTLE FILM GRAIN (LUX) ===== */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:1;
+  opacity:.06;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;
+}
+
+/* ===== MOVING BACKGROUND TEXT ===== */
+.moving-bg-container{
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  z-index:0;
+  pointer-events:none;
+  overflow:hidden;
 }
 
 .moving-bg {
   position: absolute;
-  width: 200%;
+  left: -50%;
+  width: 300%;
   font-size: 140px;
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.03);
+  letter-spacing: 4px;
+  color: rgba(255,255,255,0.025);
   white-space: nowrap;
-  animation: moveBg 25s linear infinite;
+  animation: moveBg 35s linear infinite;
   text-transform: uppercase;
+  pointer-events: none;
 }
 
-@keyframes moveBg { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-@keyframes moveBgReverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@keyframes moveBg {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(-25%); }
+  100% { transform: translateX(0); }
+}
 
-/* --- CUSTOM CURSOR --- */
+
+/* ===== PREMIUM GAMING CURSOR (NO JS CHANGE) =====
+   Your UIEffects already moves .custom-cursor with mouse.
+*/
+.custom-cursor{
+  position:fixed;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  pointer-events:none;
+  z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:transform .12s ease;
+
+  /* core */
+  background:rgba(255,255,255,0.85);
+  box-shadow:
+    0 0 18px rgba(255,255,255,0.25),
+    0 0 40px rgba(255,42,42,0.18);
+
+  mix-blend-mode:difference;
+}
+
+/* outer ring */
 .custom-cursor {
   position: fixed;
-  width: 20px;
-  height: 20px;
-  background: #ff0000;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 99999;
-  box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
-  mix-blend-mode: difference;
+
+  background: radial-gradient(circle, #ffffff 30%, transparent 70%);
   transform: translate(-50%, -50%);
-  transition: transform 0.1s ease;
+  transition: transform .08s ease;
 }
 
-/* --- LAYOUT UTILS --- */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-.section {
-  padding: 100px 0;
-  position: relative;
-  z-index: 2; /* Ensures it sits above background text */
-}
-
-.section-title {
-  font-size: 2.5rem;
-  text-align: center;
-  margin-bottom: 60px;
-  position: relative;
-}
-
-.section-title::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-}
-
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Desktop default */
-  gap: 30px;
-}
-
-
-/* --- THE COOL CARDS (Features & Shortcuts) --- */
-.feature-card, .shortcut-card, .pricing-card {
-  background: var(--card-bg);
-  border-radius: 15px;
-  padding: 40px 30px;
-  text-align: center;
-  box-shadow: 0 5px 20px var(--shadow-dark);
-  transition: var(--transition);
-  border: 1px solid var(--border-color);
-  position: relative;
-  overflow: hidden;
-}
-
-/* The Glowing Top Line Effect */
-.feature-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.5s ease;
-}
-
-.feature-card:hover, .shortcut-card:hover, .pricing-card:hover {
-  transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 15px 30px rgba(255, 255, 255, 0.1);
-  border-color: var(--border-hover);
-}
-
-.feature-card:hover::before {
-  transform: translateX(0);
-}
-
-/* --- THE 3D KEYCAPS (Exact Copy) --- */
-.keys {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 25px;
-  transition: transform 0.3s ease;
-}
-
-.shortcut-card:hover .keys {
-  transform: scale(1.1);
-}
-
-.keycap {
-  position: relative;
-  display: inline-block;
-  width: 70px;
-  height: 70px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, #282828, #202020);
-  /* The complex shadow that makes it look 3D */
-  box-shadow:
-    inset -8px 0 8px rgba(0, 0, 0, 0.15),
-    inset 0 -8px 8px rgba(0, 0, 0, 0.25),
-    0 0 0 2px rgba(0, 0, 0, 0.75),
-    8px 15px 20px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
-  user-select: none;
-}
-
-.keycap .letter {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  color: var(--text-primary);
-  font-size: 16px;
-  font-weight: 600;
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-  z-index: 2;
-}
-
-/* The shiny edge on the key */
-.keycap::before {
+/* outer ring */
+.custom-cursor::before {
   content: "";
   position: absolute;
-  top: 3px;
-  left: 4px;
-  bottom: 14px;
-  right: 12px;
-  background: linear-gradient(90deg, #232323, #4a4a4a);
-  border-radius: 10px;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.722);
+  animation: cursorRotate 4s linear infinite;
+}
+
+/* glow pulse */
+.custom-cursor::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255, 0, 0), transparent 70%);
+  animation: cursorPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes cursorRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes cursorPulse {
+  0%,100% { transform: scale(1); opacity: .4; }
+  50% { transform: scale(1.4); opacity: .8; }
+}
+
+
+/* Enlarge cursor on interactive things (works without sibling selector tricks) */
+a, button, .btn { cursor:none !important; }
+a:hover, button:hover, .btn:hover { }
+a:hover ~ .custom-cursor,
+button:hover ~ .custom-cursor{
+  /* this only works if cursor is sibling, so we also add a generic improvement below */
+}
+
+/* Generic: make cursor look “active” when hovering something clickable */
+a:hover, button:hover, .btn:hover{
+  text-shadow:0 0 12px rgba(255,255,255,0.10);
+}
+
+/* ===== LAYOUT ===== */
+.container{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 20px;
+}
+
+.section{
+  padding:100px 0;
+  position:relative;
+  z-index:2;
+  /* smooth entrance feel even without extra libs */
+  will-change:transform, opacity;
+}
+
+.section-title{
+  font-size:2.6rem;
+  text-align:center;
+  margin-bottom:60px;
+  position:relative;
+  letter-spacing:-0.5px;
+}
+
+.section-title::after{
+  content:"";
+  position:absolute;
+  bottom:-12px;
+  left:50%;
+  transform:translateX(-50%);
+  width:90px;
+  height:4px;
+  background:linear-gradient(90deg, transparent, var(--accent-color), transparent);
+  opacity:.85;
+}
+
+/* ===== GRID (DESKTOP 3) ===== */
+.grid-3{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:30px;
+}
+
+/* ===== CARDS (LUX + GAMING) ===== */
+.feature-card,
+.shortcut-card,
+.pricing-card{
+  position:relative;
+  overflow:hidden;
+
+  background:rgba(255,255,255,0.03);
+  backdrop-filter: blur(12px);
+
+  border:1px solid rgba(255,255,255,0.10);
+  border-radius:var(--radius);
+
+  padding:42px 30px;
+  text-align:center;
+
   box-shadow:
-    -10px -10px 10px rgba(255, 255, 255, 0.15),
-    10px 5px 10px rgba(0, 0, 0, 0.15);
-  border-left: 1px solid #0004;
-  border-bottom: 1px solid #0004;
-  border-top: 1px solid #0009;
+    0 18px 45px rgba(0,0,0,0.55);
+  transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
 }
 
-/* --- PRICING SPECIFICS --- */
-.pricing-card.popular {
-  border: 2px solid var(--accent-color);
-  transform: scale(1.05);
-}
-.pricing-card .price {
-  font-size: 3rem;
-  font-weight: 800;
-  margin: 20px 0;
-}
-.pricing-card .features-list {
-  list-style: none;
-  text-align: left;
-  padding-left: 0;
-}
-.pricing-card .features-list li {
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  color: #ccc;
+/* subtle scanline */
+.feature-card::after,
+.shortcut-card::after,
+.pricing-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(255,255,255,0.05),
+    transparent 30%,
+    transparent 70%,
+    rgba(255,42,42,0.04)
+  );
+  opacity:.25;
+  pointer-events:none;
 }
 
-/* --- BUTTONS --- */
-.btn {
-  background: var(--accent-color);
-  color: #000;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 12px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-  display: inline-block;
+.feature-card::before{
+  content:"";
+  position:absolute;
+  top:0; left:0;
+  width:100%;
+  height:3px;
+  background:linear-gradient(90deg, transparent, rgba(255,42,42,0.9), transparent);
+  transform:translateX(-120%);
+  transition:transform .5s ease;
+  opacity:.75;
 }
 
-.btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.8);
+.feature-card:hover,
+.shortcut-card:hover,
+.pricing-card:hover{
+  transform:translateY(-10px) scale(1.02);
+  border-color:rgba(255,255,255,0.22);
+  box-shadow:
+    0 28px 65px rgba(0,0,0,0.75),
+    0 0 22px rgba(255,42,42,0.10);
 }
 
-/* =========================
-   MOBILE RESPONSIVE FIXES
-========================= */
-
-.hamburger {
-  display: none;
-  font-size: 1.8rem;
-  color: white;
+.feature-card:hover::before{
+  transform:translateX(0);
 }
 
-.nav-links {
-  display: flex;
-  gap: 40px;
+/* headings inside cards */
+.feature-card h3,
+.shortcut-card h3,
+.pricing-card h3{
+  margin:0 0 10px 0;
+  font-size:1.35rem;
+  letter-spacing:-0.3px;
 }
 
-/* ---------- TABLET ---------- */
-@media (max-width: 1024px) {
+.feature-card p,
+.shortcut-card p{
+  margin:0;
+  color:var(--text-secondary);
+  line-height:1.6;
+}
 
-  .section {
-    padding: 80px 0;
+/* ===== KEYCAPS ===== */
+.keys{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin-bottom:25px;
+  transition:transform .25s ease;
+}
+.shortcut-card:hover .keys{ transform:scale(1.07); }
+
+.keycap{
+  position:relative;
+  display:inline-block;
+  width:70px;
+  height:70px;
+  border-radius:12px;
+  background:linear-gradient(180deg, #2b2b2f, #1b1b1f);
+  box-shadow:
+    inset -8px 0 8px rgba(0,0,0,0.18),
+    inset 0 -8px 8px rgba(0,0,0,0.28),
+    0 0 0 2px rgba(0,0,0,0.78),
+    8px 15px 20px rgba(0,0,0,0.42);
+  overflow:hidden;
+  user-select:none;
+}
+
+.keycap .letter{
+  position:absolute;
+  left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  color:var(--text-primary);
+  font-size:16px;
+  font-weight:600;
+  text-shadow:0 0 6px rgba(255,255,255,0.6);
+  z-index:2;
+}
+
+.keycap::before{
+  content:"";
+  position:absolute;
+  top:3px; left:4px; bottom:14px; right:12px;
+  background:linear-gradient(90deg, #232327, #4a4a52);
+  border-radius:12px;
+  box-shadow:
+    -10px -10px 10px rgba(255,255,255,0.12),
+    10px 5px 10px rgba(0,0,0,0.18);
+  border-left:1px solid #0004;
+  border-bottom:1px solid #0004;
+  border-top:1px solid #0009;
+}
+
+/* ===== PRICING ===== */
+.pricing-card.popular{
+  border:1px solid rgba(255,255,255,0.28);
+  box-shadow:
+    0 30px 70px rgba(0,0,0,0.8),
+    0 0 28px rgba(255,255,255,0.10);
+  transform:translateY(-8px) scale(1.03);
+}
+
+.pricing-card .price{
+  font-size:3rem;
+  font-weight:800;
+  margin:18px 0 10px;
+  letter-spacing:-0.6px;
+}
+
+.pricing-card .features-list{
+  list-style:none;
+  text-align:left;
+  padding-left:0;
+  margin:18px 0 0;
+}
+.pricing-card .features-list li{
+  padding:9px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  color:rgba(255,255,255,0.78);
+}
+
+/* ===== BUTTONS (LUX) ===== */
+.btn{
+  position:relative;
+  overflow:hidden;
+
+  background:linear-gradient(180deg, #ffffff, #dcdcdc);
+  color:#000;
+
+  border:none;
+  padding:14px 28px;
+  border-radius:40px;
+
+  font-weight:700;
+  letter-spacing:0.25px;
+
+  box-shadow:
+    0 12px 28px rgba(255,255,255,0.12),
+    inset 0 1px 0 rgba(255,255,255,0.65);
+
+  transition:transform .22s ease, box-shadow .22s ease, filter .22s ease;
+  display:inline-block;
+}
+
+/* sheen sweep */
+.btn::before{
+  content:"";
+  position:absolute;
+  top:-20%;
+  left:-60%;
+  width:60%;
+  height:140%;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    rgba(255,255,255,0.65),
+    transparent
+  );
+  transform:skewX(-20deg);
+  opacity:.0;
+}
+
+.btn:hover{
+  transform:translateY(-4px);
+  box-shadow:
+    0 20px 48px rgba(255,255,255,0.18),
+    0 0 22px rgba(255,42,42,0.12);
+  filter:saturate(1.05);
+}
+
+.btn:hover::before{
+  animation:btnSheen .8s ease;
+  opacity:.8;
+}
+
+@keyframes btnSheen{
+  0%{ left:-60%; opacity:0; }
+  30%{ opacity:.75; }
+  100%{ left:130%; opacity:0; }
+}
+
+.btn:active{
+  transform:translateY(-1px) scale(0.99);
+}
+
+/* ===== NAV (Hamburger CSS relies on your Navbar.js classes) ===== */
+.hamburger{
+  display:none;
+  font-size:1.9rem;
+  color:white;
+  user-select:none;
+}
+
+.nav-links{
+  display:flex;
+  gap:40px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+/* Tablet */
+@media (max-width: 1024px){
+  .section{ padding:80px 0; }
+  .section-title{ font-size:2rem; margin-bottom:40px; }
+
+  .grid-3{
+    grid-template-columns:repeat(2, 1fr);
+    gap:22px;
   }
 
-  .section-title {
-    font-size: 2rem;
-    margin-bottom: 40px;
+  .feature-card, .shortcut-card, .pricing-card{
+    padding:34px 22px;
   }
 
-  .grid-3 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  .feature-card,
-  .shortcut-card,
-  .pricing-card {
-    padding: 30px 20px;
-  }
-
-  .pricing-card .price {
-    font-size: 2.2rem;
+  .pricing-card .price{
+    font-size:2.2rem;
   }
 }
 
-/* ---------- MOBILE ---------- */
-@media (max-width: 768px) {
+/* Mobile */
+@media (max-width: 768px){
+  *{ cursor:auto !important; }
+  .custom-cursor{ display:none; }
 
-  * { cursor: auto !important; }
+  .moving-bg{ font-size:70px; }
 
-  .custom-cursor { display: none; }
+  .container{ padding:0 16px; }
+  .section{ padding:60px 0; }
 
-  .moving-bg { font-size: 70px; }
-
-  .container { padding: 0 16px; }
-
-  .section { padding: 60px 0; }
-
-  .section-title {
-    font-size: 1.6rem;
-    margin-bottom: 30px;
+  .section-title{
+    font-size:1.55rem;
+    margin-bottom:28px;
   }
 
-  .grid-3 {
-    grid-template-columns: 1fr;
-    gap: 18px;
+  /* Mobile should be 2 columns */
+  .grid-3{
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
   }
 
-  .feature-card,
-  .shortcut-card,
-  .pricing-card {
-    padding: 25px 18px;
+  .feature-card, .shortcut-card, .pricing-card{
+    padding:24px 18px;
+    border-radius:14px;
   }
 
-  .feature-card h3,
-  .shortcut-card h3,
-  .pricing-card h3 {
-    font-size: 1.2rem;
+  .feature-card h3, .shortcut-card h3, .pricing-card h3{
+    font-size:1.1rem;
   }
 
-  .feature-card p,
-  .shortcut-card p {
-    font-size: 0.9rem;
-    line-height: 1.5;
+  .feature-card p, .shortcut-card p{
+    font-size:0.88rem;
+    line-height:1.5;
   }
 
-  .pricing-card .price {
-    font-size: 25px;
+  .pricing-card .price{
+    font-size:1.6rem;
   }
 
-  .btn {
-    width: 100%;
-    padding: 14px;
+  /* Buttons responsive */
+  .btn{
+    width:100%;
+    padding:14px 18px;
   }
 
-  h1 {
-    font-size: 2.5rem !important;
-    line-height: 1.1 !important;
+  /* Hamburger */
+  .hamburger{ display:block; }
+
+  .nav-links{
+    position:fixed;
+    top:70px;
+    left:0;
+    width:100%;
+    background:rgba(10,10,10,0.96);
+    backdrop-filter:blur(14px);
+
+    flex-direction:column;
+    align-items:center;
+    gap:22px;
+    padding:26px 0;
+
+    transform:translateY(-120%);
+    transition:transform .3s ease;
+    border-bottom:1px solid rgba(255,255,255,0.08);
   }
 
-  p {
-    font-size: 0.85rem !important;
+  .nav-links.open{ transform:translateY(0); }
+
+  /* HERO title + hero layout (your existing page.js uses inline styles) */
+  main > div:first-of-type{
+    padding-left:0 !important;
+    padding-right:0 !important;
+    align-items:center !important;
+    text-align:center !important;
+    padding-top:90px !important;
   }
 
-  .hamburger { display: block; }
-
-  .nav-links {
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background: rgba(10,10,10,0.98);
-    flex-direction: column;
-    align-items: center;
-    gap: 25px;
-    padding: 30px 0;
-    transform: translateY(-120%);
-    transition: 0.3s ease;
+  main h1{
+    font-size:3.1rem !important;
+    line-height:1.05 !important;
+    margin-top:-200px !important; /* keep your current look */
+    text-align:center !important;
+    letter-spacing:-1px;
   }
 
-  .nav-links.open {
-    transform: translateY(0);
+  main p{
+    font-size:0.85rem !important;
+    max-width:95%;
+    text-align:center !important;
+    color:rgba(255,255,255,0.75);
   }
-}
 
-/* ---------- SMALL PHONES ---------- */
-@media (max-width: 480px) {
-
-  .moving-bg { font-size: 50px; }
-
-  .section-title { font-size: 1.4rem; }
-}
-
-@media (max-width: 1024px) {
-  .grid-3 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 22px;
-  }
-}
-@media (max-width: 768px) {
-  .grid-3 {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-}
-@media (max-width: 420px) {
-  .grid-3 {
-    grid-template-columns: 1fr;
+  /* center the hero buttons only (does not affect Cart/System Online) */
+  main .btn{
+    margin-left:auto !important;
+    margin-right:auto !important;
+    max-width:280px;
+    transform:translateX(-12px); /* your nudge */
   }
 }
 
-/* =========================
-   HERO TITLE FIX
-========================= */
-
-@media (max-width: 768px) {
-
-  main h1 {
-    font-size: 3.2rem !important;
-    line-height: 1.05 !important;
-    margin-top: -200px !important;
-    text-align: center;
-  }
- main p{
-  text-align: center;
- }
-
+/* Tiny phones */
+@media (max-width: 420px){
+  .grid-3{ grid-template-columns:1fr; }
+  .moving-bg{ font-size:52px; }
+  .section-title{ font-size:1.35rem; }
 }
-@media (max-width: 768px) {
-
-  main > div:first-of-type {
-    align-items: flex-start !important;
-    padding-top: 90px !important;
-  }
-
-}
-@media (max-width: 768px) {
-
-  main p {
-    font-size: 0.85rem !important;
-    max-width: 95%;
-  }
-
-}
-
-/* =========================
-   HERO MOBILE CENTER FIX
-========================= */
-
-@media (max-width: 768px) {
-
-  /* main hero container */
-  main > div:first-of-type {
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
-
-  /* button wrapper */
-  main > div:first-of-type div {
-    justify-content: center !important;
-    align-items: center !important;
-  }
-
- main .btn {
-    transform: translateX(-12px);
-  }
-
-}
-
