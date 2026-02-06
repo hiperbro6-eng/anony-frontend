@@ -21,17 +21,30 @@ export default function StartScreen({ onStart }) {
   return (
     <div 
       onClick={handleStart}
+      
       style={{
-        position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-        background: '#050505', 
-        zIndex: 99999, // On top of everything
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-        cursor: 'pointer',
-        opacity: fading ? 0 : 1,
-        transition: 'opacity 0.8s ease-in-out',
-        color: 'white',
-        fontFamily: 'sans-serif'
-      }}
+  position: 'fixed',
+  inset: 0,                 // replaces top/left/width/height
+  width: '100%',
+  height: '100vh',
+
+  background: '#050505',
+  zIndex: 99999,
+
+  display: 'grid',
+  placeItems: 'center',     // ⭐ PERFECT CENTER (horizontal + vertical)
+
+  textAlign: 'center',
+  padding: '0 20px',
+
+  cursor: 'pointer',
+  opacity: fading ? 0 : 1,
+  transition: 'opacity 0.8s ease-in-out',
+
+  color: 'white',
+  fontFamily: 'sans-serif'
+}}
+
     >
       <h1 style={{ 
         fontSize: '4rem', fontWeight: '900', letterSpacing: '5px', margin: 0,

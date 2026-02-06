@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { useStore } from "./store";
 
 export default function Navbar() {
-  // ✅ JUST GET THE CART DIRECTLY
+
   const { cart, toggleCart } = useStore();
   const [activeSection, setActiveSection] = useState('home');
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,7 +14,9 @@ export default function Navbar() {
         setActiveSection('home');
         return;
       }
+
       const sections = ['features', 'shortcuts', 'pricing'];
+
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
@@ -25,12 +28,14 @@ export default function Navbar() {
         }
       }
     };
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (e, id) => {
     e.preventDefault();
+
     if (id === 'home') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
@@ -39,7 +44,9 @@ export default function Navbar() {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     }
+
     setActiveSection(id);
+    setMenuOpen(false); // close menu on click
   };
 
   const getLinkStyle = (sectionName) => ({
@@ -55,50 +62,78 @@ export default function Navbar() {
 
   return (
     <nav style={{
-      position: 'fixed', top: 0, left: 0, width: '100%', padding: '20px 50px',
-      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      zIndex: 1000, pointerEvents: 'auto',
-      background: 'rgba(10, 10, 10, 0.85)', backdropFilter: 'blur(12px)',
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100%',
+      padding: '20px 30px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      zIndex: 1000,
+      background: 'rgba(10, 10, 10, 0.85)',
+      backdropFilter: 'blur(12px)',
       borderBottom: '1px solid rgba(255,255,255,0.08)'
     }}>
-      
+
       {/* LOGO */}
-      <div onClick={(e) => scrollToSection(e, 'home')} style={{ display: 'flex', alignItems: 'center', gap: '15px', cursor: 'pointer' }}>
-        <div className="logo-container" style={{
-          width: "40px", height: "40px", borderRadius: "50%", overflow: "hidden",
-          backgroundColor: "white", display: "flex", alignItems: "center", justifyContent: "center"
+      <div
+        onClick={(e) => scrollToSection(e, 'home')}
+        style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
+      >
+        <div style={{
+          width: "40px",
+          height: "40px",
+          borderRadius: "50%",
+          overflow: "hidden",
+          backgroundColor: "white"
         }}>
-          <img src="/logo.gif" alt="Logo" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          <img src="/logo.gif" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
-        <div style={{ fontSize: '1.5rem', fontWeight: '800', letterSpacing: '1px', color: 'white' }}>
+
+        <div style={{
+          fontSize: '1.4rem',
+          fontWeight: '800',
+          letterSpacing: '1px',
+          color: 'white'
+        }}>
           ANONY
         </div>
       </div>
 
-      {/* LINKS */}
-      <div style={{ display: 'flex', gap: '40px', fontSize: '0.9rem' }}>
-        <a href="#" onClick={(e) => scrollToSection(e, 'home')} style={getLinkStyle('home')}>HOME</a>
-        <a href="#features" onClick={(e) => scrollToSection(e, 'features')} style={getLinkStyle('features')}>FEATURES</a>
-        <a href="#shortcuts" onClick={(e) => scrollToSection(e, 'shortcuts')} style={getLinkStyle('shortcuts')}>SHORTCUTS</a>
-        <a href="#pricing" onClick={(e) => scrollToSection(e, 'pricing')} style={getLinkStyle('pricing')}>PRICING</a>
+      {/* NAV LINKS */}
+      <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+        <a onClick={(e)=>scrollToSection(e,'home')} style={getLinkStyle('home')}>HOME</a>
+        <a onClick={(e)=>scrollToSection(e,'features')} style={getLinkStyle('features')}>FEATURES</a>
+        <a onClick={(e)=>scrollToSection(e,'shortcuts')} style={getLinkStyle('shortcuts')}>SHORTCUTS</a>
+        <a onClick={(e)=>scrollToSection(e,'pricing')} style={getLinkStyle('pricing')}>PRICING</a>
       </div>
 
-      {/* CART BUTTON */}
-      <button 
-        onClick={toggleCart}
-        style={{
-          background: 'white', color: 'black', border: 'none', padding: '10px 25px',
-          borderRadius: '30px', fontWeight: 'bold', cursor: 'pointer', zIndex: 1001,
-          boxShadow: '0 0 15px rgba(255,255,255,0.2)',
-          transition: 'transform 0.2s'
-        }}
-        onMouseDown={(e) => e.currentTarget.style.transform = 'scale(0.95)'}
-        onMouseUp={(e) => e.currentTarget.style.transform = 'scale(1)'}
-      >
-        {/* ✅ SHOW REAL CART LENGTH */}
-        Cart ({cart.length})
-      </button>
+      {/* RIGHT SIDE */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
 
+        {/* HAMBURGER */}
+        <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </div>
+
+        {/* CART */}
+        <button
+          onClick={toggleCart}
+          style={{
+            background: 'white',
+            color: 'black',
+            border: 'none',
+            padding: '10px 20px',
+            borderRadius: '30px',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }}
+        >
+          Cart ({cart.length})
+        </button>
+
+      </div>
     </nav>
   );
 }
