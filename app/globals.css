@@ -425,3 +425,29 @@ body, html {
 
 }
 
+/* =========================
+   HERO MOBILE CENTER FIX
+========================= */
+
+@media (max-width: 768px) {
+
+  /* main hero container */
+  main > div:first-of-type {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* button wrapper */
+  main > div:first-of-type div {
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+ main .btn {
+    transform: translateX(-12px);
+  }
+
+}
+
